@@ -1,3 +1,4 @@
+import numpy as np
 import cv2
 
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
@@ -17,7 +18,10 @@ while(1):
 
     if len(faces):
         for(x,y,w,h) in faces:
-            cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),2)
+            face_img = frame[y:y+h, x:x+w]
+            face_img = cv2.resize(face_img, dsize=(0, 0), fx=0.04, fy=0.04)
+            face_img = cv2.resize(face_img, (w, h), interpolation=cv2.INTER_AREA)
+            frame[y:y+h, x:x+w] = face_img
 
     cv2.imshow('result',frame)
 
